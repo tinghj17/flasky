@@ -7,7 +7,6 @@ import os
 
 # create the object
 db = SQLAlchemy()
-migrate = Migrate()
 load_dotenv()
 
 from .models.cars import Car
@@ -19,6 +18,7 @@ def create_app(testing = None):
     # __name__ stores the name of the module we're in
     # creating a new flask object
     app = Flask(__name__)
+    migrate = Migrate(app, db, include_schemas=True)
 
     # put configuration, for legacy.
     app.config["SQLALCHEMY_TEACK_MODIFICATIONS"] = False
