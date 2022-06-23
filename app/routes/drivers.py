@@ -43,6 +43,7 @@ def create_driver():
 @drivers_bp.route("", methods=["GET"])
 def get_all_drivers():
     response = []
+    # order_by(Driver.id) makes sure when the user updates data. Everything sorts by the order, not be put at the end
     drivers = Driver.query.order_by(Driver.id).all()
     for driver in drivers:
         response.append(
