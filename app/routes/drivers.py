@@ -1,4 +1,5 @@
 
+import json
 from flask import Blueprint, jsonify, request, make_response, abort
 from app import db
 from app.models.drivers import Driver
@@ -83,3 +84,20 @@ def add_cars_to_driver(driver_id):
     
     return jsonify({'msg':"Added cars to driver {driver_id}"}), 200
 
+@drivers_bp.route("/<driver_id>", methods=["DELETE"])
+def delete_one_driver(driver_id):
+    chosen_driver = get_car_or_abort(driver_id)
+    
+    db.session.delete(chosen_driver)
+    db.session.commit()
+
+    return jsonify({'msg': f'Deleted driver with id {driver_id}'})
+
+
+@drivers_bp.route("/<driver_id>/fliphandsome", methods=["PATCH"])
+def flip_driver_handsomeness_with_id(driver_id):
+    driver = get_car_or_abort(driver_id)
+    driver.handsome = not driver.handsome
+
+    db.session.commit()
+    return jsonify({'msg': f'Flipped driver handsomeness with id {driver_id} to {driver.handsome}'})

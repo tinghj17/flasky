@@ -25,6 +25,6 @@ class Driver(db.Model):
             "name": self.name,
             "team": self.team,
             "country": self.country,
-            "handsom": self.handsome,
+            "handsome": self.handsome,
             "cars": cars_list
         }
