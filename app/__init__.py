@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 # load_dotenv is a function
 from dotenv import load_dotenv
 import os
+from flask_cors import CORS
 
 # create the object
 db = SQLAlchemy()
@@ -19,9 +20,11 @@ def create_app(testing = None):
     # __name__ stores the name of the module we're in
     # creating a new flask object
     app = Flask(__name__)
+    CORS(app)
 
     # put configuration, for legacy.
     app.config["SQLALCHEMY_TEACK_MODIFICATIONS"] = False
+    app.config['CORS_HEADERS'] = 'Content-Type'
     if testing is None:
         # tell sqlalchemy where is our database by using connection string 
         app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')

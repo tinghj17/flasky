@@ -43,7 +43,7 @@ def create_driver():
 @drivers_bp.route("", methods=["GET"])
 def get_all_drivers():
     response = []
-    drivers = Driver.query.all()
+    drivers = Driver.query.order_by(Driver.id).all()
     for driver in drivers:
         response.append(
             driver.to_dict()
@@ -86,7 +86,7 @@ def add_cars_to_driver(driver_id):
 
 @drivers_bp.route("/<driver_id>", methods=["DELETE"])
 def delete_one_driver(driver_id):
-    chosen_driver = get_car_or_abort(driver_id)
+    chosen_driver = get_driver_or_abort(driver_id)
     
     db.session.delete(chosen_driver)
     db.session.commit()
@@ -96,7 +96,7 @@ def delete_one_driver(driver_id):
 
 @drivers_bp.route("/<driver_id>/fliphandsome", methods=["PATCH"])
 def flip_driver_handsomeness_with_id(driver_id):
-    driver = get_car_or_abort(driver_id)
+    driver = get_driver_or_abort(driver_id)
     driver.handsome = not driver.handsome
 
     db.session.commit()
